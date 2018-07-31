@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="connection_details_view_action" model="ir.actions.act_window">
+          <field name="name">Create New FTTH Connections</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">ftth.connection</field>
+          <field name="view_mode">tree</field>
+          <field name="view_mode">tree,form</field>
+          <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+               Add New FTTH Connection
+            </p>
+          </field>
+      </record>
+       <!--This Menu Item will appear in the Upper bar, That's why It needs NO parent or action-->
+      <menuitem id="client_root" name="Support" sequence=""/>
+      <!-- This Menu Item Must have a parent-->
+      <menuitem id="sub_connection_root" name="New Connection" parent="client_root" sequence="2"/>
+      <!-- This Menu Item must have a parent and an action-->
+      <menuitem id="mini_connection_root" name="Add FTTH" parent="sub_connection_root" action="connection_details_view_action" sequence=""/>
+
+        <record id="connection_details_form_view" model="ir.ui.view">
+            <field name="name">connection.details.form.view</field>
+            <field name="model">ftth.connection</field>
+            <field name="arch" type="xml">
+                <form string="Connection Form View">
+                    <header>
+                        <button name="action_check_in"
+                                string="New Connection"
+                                type="object"
+                                states="draft"
+                                class="oe_highlight"
+                                />
+
+                        <button name="action_check_out"
+                                string="Close Connection"
+                                type="object"
+                                states="check_in"
+                                class="oe_highlight"
+                                />
+                         <button name="action_cancel"
+                                string="Cancel"
+                                type="object"
+                                states="draft"
+                                attrs = "{'invisible': [('state', 'in', ('check_in','check_out'))]}"/>
+                        <field name="state"
+                               widget="statusbar"
+                               statusbar_visible="draft,check_in,check_out,cancel"
+                              />
+                    </header>
+                    <sheet>
+                        <group>
+                            <group string="Connection Details">
+                                <field name="client_id"/>
+                                <field name="phone"/>
+                                <field name="circuit_id"/>
+                                <field name="crq"/>
+                                <field name="assigned_eng"/>
+                                <field name="noc_eng"/>
+
+                            </group>
+                            <group string="Opening/Closing Details">
+                                <field name="opened_field"/>
+                                <field name="closed_field"/>
+                                <field name="time_diff"/>
+                                <field name="sla_state"/>
+                            </group>
+
+                        </group>
+                        <notebook>
+                            <page string="Reasons For Past SLA's">
+                                <group>
+                                    <field name="text_sla"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!--Tree View-->
+        <record id="connection_details_tree_view" model="ir.ui.view">
+            <field name="name">connection.details.tree.view</field>
+            <field name="model">ftth.connection</field>
+            <field name="arch" type="xml">
+                <tree string="Connection Tree View">
+                    <field name="client_id"/>
+                    <field name="phone"/>
+                    <field name="opened_field"/>
+                    <field name="closed_field"/>
+                    <field name="time_diff"/>
+                    <field name="sla_state"/>
+                    <field name="assigned_eng"/>
+                    <field name="noc_eng"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.sequence" id="sequence_id">
+            <field name="name">New Connections</field>
+            <field name="code">ftth.connection</field>
+            <field name="prefix">FTTH</field>
+            <field name="padding">3</field>
+         </record>
+    </data>
+</odoo>

@@ -1,0 +1,110 @@
+<odoo>
+    <data>
+
+        <record id="incident_details_view_action" model="ir.actions.act_window">
+          <field name="name">Create New FTTH Ticket</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">ftth.incident</field>
+          <field name="view_mode">tree</field>
+          <field name="view_mode">tree,form</field>
+          <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+               Add New FTTH Incident
+            </p>
+          </field>
+      </record>
+       <!--This Menu Item will appear in the Upper bar, That's why It needs NO parent or action-->
+      <menuitem id="client_root" name="Support" sequence=""/>
+      <!-- This Menu Item Must have a parent-->
+      <menuitem id="sub_incident_root" name="New Support Ticket" parent="client_root" sequence="3"/>
+      <!-- This Menu Item must have a parent and an action-->
+      <menuitem id="mini_incident_root" name="Add Ticket" parent="sub_incident_root" action="incident_details_view_action" sequence=""/>
+
+<record id="incident_details_form_view" model="ir.ui.view">
+    <field name="name">incident.details.form.view</field>
+    <field name="model">ftth.incident</field>
+    <field name="arch" type="xml">
+        <form string="Incident Form View">
+            <header>
+                        <button name="action_check_in"
+                                string="New Ticket"
+                                type="object"
+                                states="draft"
+                                class="oe_highlight"
+                                />
+
+                        <button name="action_check_out"
+                                string="Close Ticket"
+                                type="object"
+                                states="check_in"
+                                class="oe_highlight"
+                                />
+                         <button name="action_cancel"
+                                string="Cancel"
+                                type="object"
+                                states="draft"
+                                attrs = "{'invisible': [('state', 'in', ('check_in','check_out'))]}"/>
+
+                        <field name="state"
+                               widget="statusbar"
+                               statusbar_visible="draft,check_in,check_out,cancel"
+                              />
+                    </header>
+            <sheet>
+                <group>
+                    <group string="Ticket Details">
+                    <field name="client_id"/>
+                    <field name="phone"/>
+                    <field name="circuit_id"/>
+                    <field name="incident_no"/>
+                    <field name="assigned_eng"/>
+                    <field name="noc_eng"/>
+                </group>
+                <group string="Opening/Closing Details">
+                    <field name="opened_field"/>
+                    <field name="closed_field"/>
+                    <field name="time_diff"/>
+                    <field name="sla_state"/>
+                </group>
+                </group>
+                <notebook>
+                    <page string="Reasons for Past SLA's">
+                        <group>
+                            <field name="text_sla"/>
+                        </group>
+                    </page>
+                    <page string="Nature of Issue/Comment">
+                        <group>
+                            <field name="text_sla"/>
+                        </group>
+                    </page>
+                    <page string="Resolution">
+                        <group>
+                            <field name="text_sla"/>
+                        </group>
+                    </page>
+                </notebook>
+            </sheet>
+        </form>
+    </field>
+</record>
+        <!--Tree View-->
+        <record id="incident_details_tree_view" model="ir.ui.view">
+            <field name="name">incident.details.tree.view</field>
+            <field name="model">ftth.incident</field>
+            <field name="arch" type="xml">
+                <tree string="Connection Tree View">
+                    <field name="client_id"/>
+                    <field name="phone"/>
+                    <field name="opened_field"/>
+                    <field name="closed_field"/>
+                    <field name="time_diff"/>
+                    <field name="sla_state"/>
+                    <field name="assigned_eng"/>
+                    <field name="noc_eng"/>
+
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

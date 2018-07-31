@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+      <record id="client_details_view_action" model="ir.actions.act_window">
+          <field name="name">Create New Clients</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">customer.details</field>
+          <field name="view_mode">tree</field>
+          <field name="view_mode">tree,form</field>
+          <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+               Add New Clients
+            </p>
+          </field>
+      </record>
+      <!-- This Menu Item will appear in the Upper bar, That's why It needs NO parent or action -->
+      <menuitem id="client_root" name="Support" sequence=""/>
+      <!-- This Menu Item Must have a parent -->
+      <menuitem id="sub_client_root" name="Clients Details" parent="client_root" sequence="1"/>
+      <!-- This Menu Item must have a parent and an action -->
+      <menuitem id="mini_client_root" name="Clients" parent="sub_client_root" action="client_details_view_action" sequence=""/>
+
+      <!--Form View-->
+    <record id="client_details_form_view" model="ir.ui.view">
+        <field name="name">client.details.form.view</field>
+        <field name="model">customer.details</field>
+        <field name="arch" type="xml">
+            <form string="Client Form View">
+                <sheet>
+                    <div name="title_name" class="oe_title">
+                            <h1>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <field name="name"
+                                                placeholder="FullName"
+                                                style="padding-right:10px" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </h1>
+                    </div>
+                    <group>
+                            <group>
+                                <label for="street" string="Client's Address"/>
+                                <div class="o_address_format">
+                                    <field name="region_name" placeholder="Region"/>
+                                    <field name="estate_name" placeholder="Estate Name"/>
+                                    <field name="house_number" placeholder="House Number"/>
+                                    <field name="phone" placeholder="Phone Number"/>
+                                    <field name="email" placeholder="Email"/>
+                                </div>
+                            </group>
+                            <group>
+                                 <field name="crq"/>
+                                <field name="circuit_id"/>
+                                <field name="assigned_eng"/>
+                            </group>
+                        </group>
+                    <notebook>
+                    <page string="Additional Notes">
+                        <group>
+                            <field name="text_field"/>
+                        </group>
+                    </page>
+                </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+<!--Tree View-->
+        <record id="client_details_tree_view" model="ir.ui.view">
+            <field name="name">client.details.tree.view</field>
+            <field name="model">customer.details</field>
+            <field name="arch" type="xml">
+                <tree string="Client Tree View">
+                        <field name="name"/>
+                        <field name="phone"/>
+                        <field name="region_name"/>
+                        <field name="estate_name"/>
+                        <field name="house_number"/>
+                        <field name="assigned_eng"/>
+                </tree>
+            </field>
+        </record>
+
+
+  </data>
+</odoo>
