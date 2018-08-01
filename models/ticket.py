@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-import datetime
+
+from datetime import datetime
 
 from odoo import models,fields,api
 
@@ -7,7 +8,7 @@ class NewIncidents(models.Model):
     _name = 'ftth.incident'
     client_id = fields.Many2one(comodel_name="customer.details", string="Client Name", required=False, )
     circuit_id = fields.Char(string="Circuit ID", required=True, )
-    incident_no = fields.Char(string="Incident No.", required=False, )
+    incident_no = fields.Char(string="Incident No.", required=False,)
     phone = fields.Char(string="Phone", required=False)
     assigned_eng = fields.Many2one(comodel_name="hr.employee", string="Assigned Engineer", required=True, )
     opened_field = fields.Datetime(string="DateTime Opened", required=False, )
@@ -41,6 +42,18 @@ class NewIncidents(models.Model):
         if self.client_id:
             if self.client_id.phone:
                 self.phone = self.client_id.phone
+
+    @api.onchange('opened_field', 'closed_field', 'time_diff')
+    def calculate_date(self):
+        if self.opened_field and self.closed_field:
+            print "++++++++++++++++++++++++++++++++++++++++++++++++++"
+            print "++++++++++++++++++++++++++++++++++++++++++++++++++"
+            t1 = datetime.strptime(str(self.opened_field), '%Y-%m-%d %H:%M:%S')
+            t2 = datetime.strptime(str(self.closed_field), '%Y-%m-%d %H:%M:%S')
+            t3 = t2 - t1
+            self.time_diff = str(t3.days)
+            print "++++++++++++++++++++++++++++++++++++++++++++++++++"
+            print "++++++++++++++++++++++++++++++++++++++++++++++++++"
 
 
 

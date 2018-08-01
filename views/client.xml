@@ -7,7 +7,7 @@
           <field name="type">ir.actions.act_window</field>
           <field name="res_model">customer.details</field>
           <field name="view_mode">tree</field>
-          <field name="view_mode">tree,form</field>
+          <field name="view_mode">tree,form,kanban</field>
           <field name="help" type="html">
             <p class="oe_view_nocontent_create">
                Add New Clients
@@ -83,6 +83,31 @@
                         <field name="house_number"/>
                         <field name="assigned_eng"/>
                 </tree>
+            </field>
+        </record>
+
+      <!--Kanban View-->
+       <record id="client_kanban_view" model="ir.ui.view">
+            <field name="name">client.kanban.view</field>
+            <field name="model">customer.details</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="oe_kanban_details">
+                                    <strong>
+                                        <ul>
+                                            <li>Name :<field name="name"/></li>
+                                            <li>Phone:<field name="phone"/></li>
+                                            <li>Circuit ID:<field name="circuit_id"/></li>
+                                        </ul>
+                                    </strong>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
             </field>
         </record>
 

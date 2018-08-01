@@ -7,7 +7,7 @@
           <field name="type">ir.actions.act_window</field>
           <field name="res_model">ftth.connection</field>
           <field name="view_mode">tree</field>
-          <field name="view_mode">tree,form</field>
+          <field name="view_mode">tree,form,kanban</field>
           <field name="help" type="html">
             <p class="oe_view_nocontent_create">
                Add New FTTH Connection
@@ -98,12 +98,31 @@
                 </tree>
             </field>
         </record>
+        <!--Kanban View-->
+       <record id="connection_kanban_view" model="ir.ui.view">
+            <field name="name">connection.kanban.view</field>
+            <field name="model">ftth.connection</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="oe_kanban_details">
+                                    <strong>
+                                        <ul>
+                                            <li>Name :<field name="client_id"/></li>
+                                            <li>Date Opened:<field name="opened_field"/></li>
+                                            <li>Date Closed:<field name="closed_field"/></li>
+                                            <li>SLA:<field name="sla_state"/></li>
+                                        </ul>
+                                    </strong>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
 
-        <record model="ir.sequence" id="sequence_id">
-            <field name="name">New Connections</field>
-            <field name="code">ftth.connection</field>
-            <field name="prefix">FTTH</field>
-            <field name="padding">3</field>
-         </record>
     </data>
 </odoo>
