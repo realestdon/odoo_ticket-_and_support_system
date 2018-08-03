@@ -20,7 +20,7 @@
     'version': '10.0.0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','hr'],
+    'depends': ['base','hr','mail'],
 
     # always loaded
     'data': [
@@ -28,7 +28,7 @@
         'views/client.xml',
         'views/connections.xml',
         'views/incident.xml',
-        'views/sequence.xml',
+        #'views/sequence.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

@@ -6,6 +6,7 @@ from odoo import models,fields,api
 
 class NewIncidents(models.Model):
     _name = 'ftth.incident'
+    _inherit = 'mail.thread'
     client_id = fields.Many2one(comodel_name="customer.details", string="Client Name", required=False, )
     circuit_id = fields.Char(string="Circuit ID", required=True, )
     incident_no = fields.Char(string="Incident No.", required=False,)
@@ -14,7 +15,7 @@ class NewIncidents(models.Model):
     check_in_date = fields.Datetime(string="DateTime Opened", required=False, )
     check_out_date = fields.Datetime(string="DateTime Closed", required=False, )
     noc_eng = fields.Many2one(comodel_name="hr.employee", string="NOC Engineer", required=True, )
-    time_diff = fields.Char(string="Time Difference", required=False, )
+    time_diff = fields.Char(string="Duration(Hours)", required=False, )
     text_sla = fields.Text(string="Notes", required=False, )
     sla_state = fields.Selection(string="SLA", selection=[('past sla', 'Past SLA'), ('within sla', 'Within SLA'), ], required=False, )
     state = fields.Selection([
@@ -55,7 +56,11 @@ class NewIncidents(models.Model):
             t1 = datetime.strptime(str(self.check_in_date), '%Y-%m-%d %H:%M:%S')
             t2 = datetime.strptime(str(self.check_out_date), '%Y-%m-%d %H:%M:%S')
             t3 = t2 - t1
-            self.time_diff = str(t3.days)
+            days = t3.days
+            days_to_hours = days * 24
+            diff_btw_two_times = (t3.seconds) / 3600
+            overall_hours = days_to_hours + diff_btw_two_times
+            self.time_diff = str(overall_hours)
             print "++++++++++++++++++++++++++++++++++++++++++++++++++"
             print "++++++++++++++++++++++++++++++++++++++++++++++++++"
 
