@@ -8,7 +8,7 @@ class VisitorDetails(models.Model):
     name = fields.Char(string="Name", required=True)
     circuit_id = fields.Char(string="Circuit ID", required=True, )
     crq = fields.Char(string="CRQ", required=True, )
-    assigned_eng = fields.Many2one(comodel_name="hr.employee", string="Assigned Engineer", required=True, )
+    assigned_eng = fields.Many2one(comodel_name="hr.employee", string="Assigned Engineer", required=False, )
     estate_name = fields.Char(string="Estate Name", required=False, )
     region_name = fields.Char(string="Region", required=False, )
     house_number = fields.Char(string="House Number", required=False, )

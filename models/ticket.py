@@ -11,8 +11,8 @@ class NewIncidents(models.Model):
     incident_no = fields.Char(string="Incident No.", required=False,)
     phone = fields.Char(string="Phone", required=False)
     assigned_eng = fields.Many2one(comodel_name="hr.employee", string="Assigned Engineer", required=True, )
-    opened_field = fields.Datetime(string="DateTime Opened", required=False, )
-    closed_field = fields.Datetime(string="DateTime Closed", required=False, )
+    check_in_date = fields.Datetime(string="DateTime Opened", required=False, )
+    check_out_date = fields.Datetime(string="DateTime Closed", required=False, )
     noc_eng = fields.Many2one(comodel_name="hr.employee", string="NOC Engineer", required=True, )
     time_diff = fields.Char(string="Time Difference", required=False, )
     text_sla = fields.Text(string="Notes", required=False, )
@@ -25,14 +25,18 @@ class NewIncidents(models.Model):
     ], track_visibility='onchange', default='draft')
 
     @api.one
+    def action_cancel(self):
+        self.state = "cancel"
+
+    @api.one
     def action_check_in(self):
         self.state = "check_in"
-        self.check_in_date = datetime.datetime.now()
+        self.check_in_date = datetime.now()
 
     @api.multi
     def action_check_out(self):
         self.state = "check_out"
-        self.check_out_date = datetime.datetime.now()
+        self.check_out_date = datetime.now()
 
     @api.onchange('client_id')
     def visitor_details(self):
@@ -43,13 +47,13 @@ class NewIncidents(models.Model):
             if self.client_id.phone:
                 self.phone = self.client_id.phone
 
-    @api.onchange('opened_field', 'closed_field', 'time_diff')
+    @api.onchange('check_in_date', 'check_out_date', 'time_diff')
     def calculate_date(self):
-        if self.opened_field and self.closed_field:
+        if self.check_in_date and self.check_out_date:
             print "++++++++++++++++++++++++++++++++++++++++++++++++++"
             print "++++++++++++++++++++++++++++++++++++++++++++++++++"
-            t1 = datetime.strptime(str(self.opened_field), '%Y-%m-%d %H:%M:%S')
-            t2 = datetime.strptime(str(self.closed_field), '%Y-%m-%d %H:%M:%S')
+            t1 = datetime.strptime(str(self.check_in_date), '%Y-%m-%d %H:%M:%S')
+            t2 = datetime.strptime(str(self.check_out_date), '%Y-%m-%d %H:%M:%S')
             t3 = t2 - t1
             self.time_diff = str(t3.days)
             print "++++++++++++++++++++++++++++++++++++++++++++++++++"

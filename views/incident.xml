@@ -7,7 +7,10 @@
           <field name="res_model">ftth.incident</field>
           <field name="view_mode">tree</field>
           <field name="view_mode">tree,form,kanban</field>
-          <field name="help" type="html">
+            <field name="domain">[('check_in_date', '&gt;=',((context_today()-datetime.timedelta(days=0)).strftime('%Y-%m-%d 00:00:00'))),
+             ('check_in_date', '&lt;=',((context_today()-datetime.timedelta(days=0)).strftime('%Y-%m-%d 23:59:59')))]
+            </field>
+            <field name="help" type="html">
             <p class="oe_view_nocontent_create">
                Add New FTTH Incident
             </p>
@@ -61,8 +64,8 @@
                     <field name="noc_eng"/>
                 </group>
                 <group string="Opening/Closing Details">
-                    <field name="opened_field"/>
-                    <field name="closed_field"/>
+                    <field name="check_in_date"/>
+                    <field name="check_out_date"/>
                     <field name="time_diff"/>
                     <field name="sla_state"/>
                 </group>
@@ -96,8 +99,8 @@
                 <tree string="Connection Tree View">
                     <field name="client_id"/>
                     <field name="phone"/>
-                    <field name="opened_field"/>
-                    <field name="closed_field"/>
+                    <field name="check_in_date"/>
+                    <field name="check_out_date"/>
                     <field name="time_diff"/>
                     <field name="sla_state"/>
                     <field name="assigned_eng"/>
@@ -119,8 +122,8 @@
                                     <strong>
                                         <ul>
                                             <li>Name :<field name="client_id"/></li>
-                                            <li>Date Opened:<field name="opened_field"/></li>
-                                            <li>Date Closed:<field name="closed_field"/></li>
+                                            <li>Date Opened:<field name="check_in_date"/></li>
+                                            <li>Date Closed:<field name="check_out_date"/></li>
                                             <li>SLA:<field name="sla_state"/></li>
                                         </ul>
                                     </strong>
